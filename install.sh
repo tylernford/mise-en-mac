@@ -12,6 +12,19 @@ loge() { printf "\033[1;31m  ✗\033[0m %s\n" "$*" >&2; }
 CURRENT_STEP="starting up"
 trap 'loge "Failed during: $CURRENT_STEP (line $LINENO)"' ERR
 
+CURRENT_STEP="checking Full Disk Access"
+log "Checking Full Disk Access (required for Safari defaults later)"
+if ! { defaults write com.apple.Safari _miseEnMacFdaProbe -bool true && defaults delete com.apple.Safari _miseEnMacFdaProbe; } >/dev/null; then
+  logw "This terminal needs Full Disk Access to write Safari preferences."
+  logw ""
+  logw "  1. Open System Settings -> Privacy & Security -> Full Disk Access"
+  logw "  2. Add your terminal app (Terminal.app / Ghostty / iTerm)"
+  logw "  3. Fully QUIT the terminal (Cmd-Q) and reopen it"
+  logw "  4. Re-run ./install.sh -- it's idempotent and will skip completed steps"
+  exit 1
+fi
+logk "Full Disk Access granted."
+
 CURRENT_STEP="priming sudo"
 log "Caching sudo credentials to minimize prompts"
 sudo -v
