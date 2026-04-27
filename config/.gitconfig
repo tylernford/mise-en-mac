@@ -1,0 +1,11 @@
+[user]
+	name = Tyler N. Ford
+	email = tylernford@gmail.com
+[credential]
+	helper = osxkeychain
+[core]
+	excludesFile = ~/.gitignore_global
+[init]
+	defaultBranch = main
+[pull]
+	rebase = true
