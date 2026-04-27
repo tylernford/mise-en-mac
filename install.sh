@@ -72,8 +72,8 @@ log "Setting up Node via fnm"
 if command -v fnm &>/dev/null; then
   eval "$(fnm env)"
   fnm install --lts
-  fnm use --lts
-  fnm default "$(fnm current)"
+  fnm use lts-latest
+  fnm default lts-latest
   corepack enable
   corepack install --global pnpm@latest
   bash "$DOTFILES_DIR/npm-globals.sh"
