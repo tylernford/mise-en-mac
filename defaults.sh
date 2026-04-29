@@ -33,9 +33,12 @@ defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
 defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true
 
 # --- Safari ---
+# Quit Safari first so it doesn't clobber these writes on its own quit.
+osascript -e 'tell application "Safari" to quit' 2>/dev/null || true
 defaults write com.apple.Safari IncludeDevelopMenu -bool true
 defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
 defaults write com.apple.Safari "com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled" -bool true
+killall cfprefsd 2>/dev/null || true
 
 # --- Trackpad ---
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
