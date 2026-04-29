@@ -18,6 +18,8 @@ brew "ffmpeg"
 
 # Web dev
 brew "ddev/ddev/ddev"
+brew "mkcert"
+brew "nss"
 
 # Utilities
 brew "actionlint"
