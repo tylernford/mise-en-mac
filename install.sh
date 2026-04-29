@@ -119,6 +119,18 @@ else
   logw "uv not found — skipping Python install"
 fi
 
+CURRENT_STEP="installing mkcert local CA"
+log "Installing mkcert local CA"
+if command -v mkcert &>/dev/null; then
+  if mkcert -check &>/dev/null || [ -f "$(mkcert -CAROOT)/rootCA.pem" ]; then
+    logk "Already installed."
+  else
+    mkcert -install
+  fi
+else
+  logw "mkcert not found — skipping local CA install"
+fi
+
 CURRENT_STEP="installing Claude Code"
 log "Installing Claude Code"
 if ! command -v claude &>/dev/null; then
