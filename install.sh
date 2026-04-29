@@ -180,6 +180,13 @@ else
   logk "Already exists."
 fi
 
+CURRENT_STEP="warning about Safari quit"
+if pgrep -xq Safari; then
+  logw "Safari is running and will be quit so preference writes stick."
+  logw "Save any open tabs/forms, then press Enter to continue (Ctrl-C to abort)."
+  read -r
+fi
+
 CURRENT_STEP="applying macOS defaults"
 log "Applying macOS defaults"
 "$DOTFILES_DIR/defaults.sh"
