@@ -16,8 +16,4 @@ for pkg in "${packages[@]}"; do
   fi
 done
 
-# Trigger inshellisense first-run so it writes ~/.inshellisense/init/zsh/init.zsh
-# (the npm install alone doesn't create the shell init file)
-command -v is &>/dev/null && is --version &>/dev/null || true
-
 echo "Done."
