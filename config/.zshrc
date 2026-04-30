@@ -34,8 +34,8 @@ command -v rbenv &>/dev/null && eval "$(rbenv init - zsh)"
 # fzf (key bindings + completion)
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# Inshellisense (AI shell autocomplete — must be last before machine-local)
-[ -f ~/.inshellisense/init/zsh/init.zsh ] && source ~/.inshellisense/init/zsh/init.zsh
+# Inshellisense (IDE-style shell autocomplete — must be last before machine-local)
+command -v is &>/dev/null && eval "$(is init zsh)"
 
 # Machine-local overrides (not tracked in dotfiles repo).
 # Put host-specific PATH entries, work tokens, experimental tweaks in ~/.zshrc.local.
