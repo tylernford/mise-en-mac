@@ -139,6 +139,37 @@ else
   logk "Already installed."
 fi
 
+CURRENT_STEP="ensuring SSH key for github.com"
+log "Ensuring SSH key exists"
+if [ ! -f "$HOME/.ssh/id_ed25519" ]; then
+  mkdir -p "$HOME/.ssh" && chmod 700 "$HOME/.ssh"
+  ssh-keygen -t ed25519 -C "$(git config --global user.email)" -f "$HOME/.ssh/id_ed25519" -N ""
+  logk "Generated ~/.ssh/id_ed25519"
+else
+  logk "SSH key already present."
+fi
+
+CURRENT_STEP="configuring ~/.ssh/config for github.com"
+log "Ensuring ~/.ssh/config has github.com block"
+mkdir -p "$HOME/.ssh" && chmod 700 "$HOME/.ssh"
+touch "$HOME/.ssh/config" && chmod 600 "$HOME/.ssh/config"
+if ! grep -qE '^Host[[:space:]].*\bgithub\.com\b' "$HOME/.ssh/config"; then
+  cat >>"$HOME/.ssh/config" <<'EOF'
+
+Host github.com
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile ~/.ssh/id_ed25519
+EOF
+  logk "Appended github.com block"
+else
+  logk "github.com block already present."
+fi
+
+CURRENT_STEP="adding SSH key to keychain"
+log "Adding SSH key to macOS keychain"
+ssh-add --apple-use-keychain "$HOME/.ssh/id_ed25519" 2>/dev/null || true
+
 CURRENT_STEP="authenticating with GitHub"
 log "Authenticating with GitHub"
 if command -v gh &>/dev/null; then
